@@ -1,0 +1,5 @@
+node_modules/
+package-lock.json
+.gitsecret/keys/random_seed
+!*.secret
+auth.json
