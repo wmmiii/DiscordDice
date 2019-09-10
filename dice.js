@@ -18,14 +18,26 @@ bot.on('ready', function (evt) {
     logger.info(bot.username + ' - (' + bot.id + ')');
 });
 bot.on('message', function (user, userID, channelID, message, evt) {
-    // Our bot needs to know if it will execute a command
-    // It will listen for messages that will start with `!`
+    
+    // if bot invoked
     if (message.substring(0, 5) == '/roll') {
         var args = message.substring(1).split(' ');
         var cmd = args[0];
-
         args = args.splice(1);
+
         if (args.length > 0) {
+            arg = args[0];
+
+            if (arg === "help" || arg === "?" || arg === "") {
+                bot.sendMessage({
+                    to: channelID,
+                    message: 'Welcome to Discord Dice!\nI\'m a bot, beep boop!\n\nYou can invoke me by typing "/roll"\
+                    \nIf you type a number after /roll like "/roll 10" you can roll a custom sided dice!'
+                })
+                return;
+            }
+
+
             var sides = parseInt(args[0]);
             console.log(sides)
             if (isNaN(sides)) {
@@ -33,10 +45,19 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     to: channelID,
                     message: 'Please enter a number indicating the number of sides!'
                 });
+                return;
             }
-        } else {
+            if (sides < 2) {
+                bot.sendMessage({
+                    to: channelID,
+                    message: 'Please enter a number larger than 1!'
+                });
+            }
+        }
+        else {
             var sides = 6;
         }
+
         var roll = Math.floor(Math.random() * Math.floor(sides));
         console.log(roll)
         bot.sendMessage({
