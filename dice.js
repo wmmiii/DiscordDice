@@ -37,7 +37,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 return;
             }
 
-
             var sides = parseInt(args[0]);
             console.log(sides)
             if (isNaN(sides)) {
@@ -58,7 +57,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             var sides = 6;
         }
 
-        var roll = Math.floor(Math.random() * Math.floor(sides));
+        var roll = Math.floor(Math.random() * Math.floor(sides) + 1);
         console.log(roll)
         bot.sendMessage({
             to: channelID,
