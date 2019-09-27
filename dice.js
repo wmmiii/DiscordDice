@@ -51,6 +51,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     to: channelID,
                     message: 'Please enter a number larger than 1!'
                 });
+		return;
             }
         }
         else {
