@@ -1,0 +1,7 @@
+FROM postgres:12
+
+ADD docker-entrypoint-initdb.d/createDiceTable.sql /docker-entrypoint-initdb.d/
+
+ARG postgresPass
+ENV POSTGRES_PASSWORD=$postgresPass
+
