@@ -1,12 +1,15 @@
 var Discord = require('discord.io');
 var logger = require('winston');
 var auth = require('./auth.json');
+const db = require('./db');
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
     colorize: true
 });
 logger.level = 'debug';
+
+
 // Initialize Discord Bot
 var bot = new Discord.Client({
    token: auth.token,
@@ -18,7 +21,6 @@ bot.on('ready', function (evt) {
     logger.info(bot.username + ' - (' + bot.id + ')');
 });
 bot.on('message', function (user, userID, channelID, message, evt) {
-    
     // if bot invoked
     if (message.substring(0, 5) == '/roll') {
         var args = message.substring(1).split(' ');
@@ -38,7 +40,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             }
 
             var sides = parseInt(args[0]);
-            console.log(sides)
             if (isNaN(sides)) {
                 bot.sendMessage({
                     to: channelID,
@@ -57,12 +58,26 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         else {
             var sides = 6;
         }
-
         var roll = Math.floor(Math.random() * Math.floor(sides) + 1);
-        console.log(roll)
+        logger.info(user + '(' + userID + ') rolled a ' + sides + ' sided die\r\noutcome: ' + roll);
         bot.sendMessage({
             to: channelID,
             message: 'You rolled a: ' + roll
+        });
+        db.query("INSERT INTO rolls (username, userid, channelid, message, diesides, roll, rolldate) \
+                VALUES ('" + user + "', \
+                '" +  userID + "', \
+                '" + channelID + "', \
+                '" + message + "', \
+                " + sides + ", \
+                " + roll + ", \
+                now());", 
+                (err, res) => {
+            if (err) {
+                logger.error(err);
+            } else {
+                logger.info('Succesfully recorded roll at: ' + Date());
+            }
         });
     }
 });

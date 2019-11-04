@@ -3,3 +3,4 @@ package-lock.json
 .gitsecret/keys/random_seed
 !*.secret
 app/auth.json
+docker-compose.yaml
