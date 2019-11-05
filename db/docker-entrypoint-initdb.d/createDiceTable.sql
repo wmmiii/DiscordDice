@@ -6,5 +6,5 @@ CREATE TABLE rolls (
   message   varchar(255)  NOT NULL,
   dieSides  integer       NOT NULL,
   roll      integer       NOT NULL,
-  rollDate  datetime
+  rollDate  timestamp
 )
