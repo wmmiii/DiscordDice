@@ -118,6 +118,7 @@ function sendHelp(channelId) {
   bot.sendMessage({
     to: channelId,
     message: 'Welcome to Discord Dice!\nI\'m a bot, beep boop!\n\nYou can invoke me by typing "/roll"\
-        \nIf you type a number after /roll like "/roll 10" you can roll a custom sided dice!'
+        \nIf you type a number after /roll like "/roll 10" you can roll a custom sided dice!\
+        \nIf you type "/roll average" you can see statistics on your rolls!'
   });
 }
